@@ -15,81 +15,77 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
+    - name: Setup Node.js with nvm fallback
+      run: |
+        # Try to use setup-node action first
+        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+        
+        # Verify Node.js installation
+        echo "Node.js version: $(node --version)"
+        echo "NPM version: $(npm --version)"
+        
+        # Fallback to nvm if needed
+        if ! command -v node &> /dev/null || [[ $(node --version | cut -d'v' -f2 | cut -d'.' -f1) -lt 18 ]]; then
+          echo "Installing Node.js via nvm..."
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install 20
+          nvm use 20
+        fi
+        
+        echo "Final Node.js version: $(node --version)"
+        echo "Final NPM version: $(npm --version)"
     
-    - name: Setup Java 17
-      uses: actions/setup-java@v4
+    - name: Cache dependencies
+      uses: actions/cache@v4
       with:
-        distribution: 'temurin'
-        java-version: '17'
-    
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+        path: |
+          ~/.npm
+          node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     
     - name: Install dependencies
-      run: npm ci
-    
-    - name: Create missing index.html
       run: |
-        echo "Creating index.html for mobile build..."
-        cat > index.html << 'EOF'
-        <!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-            <title>Step Up Naija - #13K Credible Challenge</title>
-            <meta name="description" content="Join millions of Nigerians in the #13K Credible Challenge. Nominate credible leaders, participate in civic activities, and build Nigeria's future." />
-            <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          </head>
-          <body>
-            <div id="root"></div>
-            <script type="module" src="/src/main.tsx"></script>
-          </body>
-        </html>
-        EOF
+        echo "Installing project dependencies..."
+        npm ci --prefer-offline --no-audit --no-fund
     
-    - name: Fix missing assets and imports
+    - name: Install ImageMagick
       run: |
-        echo "Creating comprehensive mobile build fixes..."
-        mkdir -p attached_assets/generated_images
+        sudo apt-get update
+        sudo apt-get install -y imagemagick
+    
+    - name: Verify assets and fix imports
+      run: |
+        echo "Verifying asset files exist and fixing component imports..."
         
-        # Create PNG placeholder function
-        create_png_placeholder() {
-          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChAI9jU77UwAAAABJRU5ErkJggg==" | base64 -d > "$1"
-        }
+        # Verify critical asset exists
+        if [ -f "attached_assets/generated_images/Nigerian_youth_civic_engagement_scene_024f101a.png" ]; then
+          echo "✅ Critical asset file exists: Nigerian_youth_civic_engagement_scene_024f101a.png"
+        else
+          echo "❌ Critical asset missing - creating placeholder..."
+          mkdir -p attached_assets/generated_images
+          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" | base64 -d > "attached_assets/generated_images/Nigerian_youth_civic_engagement_scene_024f101a.png"
+        fi
         
-        # Fix imports
+        # Fix component import issues
         if [ -f "src/pages/community-chat.tsx" ]; then
           sed -i 's/RealtimeNotifications/RealTimeNotifications/g' src/pages/community-chat.tsx
           sed -i 's/@\/components\/RealtimeNotifications/@\/components\/RealTimeNotifications/g' src/pages/community-chat.tsx
+          echo "✅ Fixed community-chat.tsx imports"
         fi
         
-        # Create all missing assets with placeholders
-        all_assets=(
-          "primary-logo_1756495358509.png"
-          "primary-logo.png" 
-          "Untitled design-4_1757162712832.png"
-          "tari-avatar.webp"
-          "kamsi-avatar.webp"
-          "a8accb1294c8498f8139dafc387a47e0_1757182966452.webp"
-          "kamsi_1757182966454.png"
-          "generated_images/Nigerian_woman_professional_headshot_b062e128.png"
-          "generated_images/Nigerian_man_professional_headshot_671c9909.png"
-          "generated_images/University_of_Ibadan_logo_b36b851a.png"
-          "generated_images/UNILAG_university_logo_2f8621ab.png"
-        )
+        # Fix client-side imports
+        if [ -f "client/src/pages/community-chat.tsx" ]; then
+          sed -i 's/RealtimeNotifications/RealTimeNotifications/g' client/src/pages/community-chat.tsx
+          sed -i 's/@\/components\/RealtimeNotifications/@\/components\/RealTimeNotifications/g' client/src/pages/community-chat.tsx
+          echo "✅ Fixed client community-chat.tsx imports"
+        fi
         
-        for asset in "${all_assets[@]}"; do
-          if [ ! -f "attached_assets/$asset" ]; then
-            mkdir -p "attached_assets/$(dirname "$asset")"
-            create_png_placeholder "attached_assets/$asset"
-          fi
-        done
+        echo "✅ Asset verification and import fixes complete!"
     
     - name: Build web app
       run: |
@@ -103,21 +99,21 @@ jobs:
         elif [ -d "dist" ]; then
           rm -rf build 2>/dev/null || true
           mv dist build
-            - name: Add Android platform
-      run: |
-        # Remove existing android directory if it exists
-        rm -rf android 2>/dev/null || true
+        fi
         
-        # Add Android platform fresh
-        npx cap add android
-        npx cap copy android
-        npx cap sync android
+        # Ensure Capacitor can find web assets
+        mkdir -p dist
+        cp -r build dist/public
     
     - name: Install Capacitor CLI
       run: npm install -g @capacitor/cli@latest
     
     - name: Add Android platform
       run: |
+        # Remove existing android directory if it exists
+        rm -rf android 2>/dev/null || true
+        
+        # Add Android platform fresh
         npx cap add android
         npx cap copy android
         npx cap sync android
