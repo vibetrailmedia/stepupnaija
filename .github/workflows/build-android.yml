@@ -172,7 +172,7 @@ jobs:
         npx cap copy android
         npx cap sync android
     
-    - name: Fix Android Gradle Java version
+    - name: Fix Android Gradle Java version (ALL modules)
       run: |
         cd android
         
@@ -182,6 +182,7 @@ jobs:
         ACTUAL_JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
         echo "Detected JAVA_HOME: $ACTUAL_JAVA_HOME"
         
+        # Fix root gradle.properties
         if [ -f "gradle.properties" ]; then
           sed -i '/org.gradle.jvmargs/d' gradle.properties
           sed -i '/java.sourceCompatibility/d' gradle.properties
@@ -196,18 +197,19 @@ jobs:
         org.gradle.java.home=$ACTUAL_JAVA_HOME
         EOF
         
-        if [ -f "app/build.gradle" ]; then
-          echo "Fixing app/build.gradle for Java 17..."
+        # Function to fix any build.gradle file
+        fix_build_gradle() {
+          local file="$1"
+          echo "Fixing $file for Java 17..."
           
           # Update existing JavaVersion references
-          sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/' app/build.gradle
-          sed -i 's/jvmTarget = ".*"/jvmTarget = "17"/' app/build.gradle
-          sed -i 's/jvmTarget = .*/jvmTarget = "17"/' app/build.gradle
+          sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/g' "$file"
+          sed -i 's/jvmTarget = ".*"/jvmTarget = "17"/g' "$file"
+          sed -i 's/jvmTarget = .*/jvmTarget = "17"/g' "$file"
           
           # Add compileOptions inside android block if not present
-          if ! grep -q "compileOptions" app/build.gradle; then
-            echo "Adding compileOptions to android block..."
-            # Find the android block and add compileOptions before the closing brace
+          if grep -q "android {" "$file" && ! grep -q "compileOptions" "$file"; then
+            echo "Adding compileOptions to android block in $file..."
             sed -i '/android {/,/^}/ {
               /^}/ i\
             \
@@ -215,24 +217,31 @@ jobs:
                     sourceCompatibility JavaVersion.VERSION_17\
                     targetCompatibility JavaVersion.VERSION_17\
                 }
-            }' app/build.gradle
+            }' "$file"
           fi
-        fi
+        }
         
+        # Fix all build.gradle files
+        find . -name "build.gradle" -type f | while read gradle_file; do
+          echo "Processing: $gradle_file"
+          fix_build_gradle "$gradle_file"
+        done
+        
+        # Specifically ensure capacitor-android is fixed
         if [ -f "capacitor-android/build.gradle" ]; then
-          echo "Fixing capacitor-android/build.gradle for Java 17..."
-          sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/' capacitor-android/build.gradle
+          echo "Double-checking capacitor-android/build.gradle..."
+          fix_build_gradle "capacitor-android/build.gradle"
         fi
         
-        echo "✅ Android Gradle configuration updated for Java 17"
+        echo "✅ All Android Gradle configurations updated for Java 17"
         
         echo "Current Java setup:"
         java -version
         echo "ACTUAL_JAVA_HOME: $ACTUAL_JAVA_HOME"
         echo "System JAVA_HOME: $JAVA_HOME"
         
-        echo "Checking build.gradle syntax:"
-        cat app/build.gradle | grep -A 10 -B 10 "compileOptions" || echo "No compileOptions found"
+        echo "Checking all build.gradle files for Java version:"
+        find . -name "build.gradle" -exec echo "=== {} ===" \; -exec grep -l "VERSION_17\|jvmTarget.*17" {} \; 2>/dev/null || echo "Java 17 configuration applied"
     
     - name: Build Android APK
       run: |
@@ -248,7 +257,10 @@ jobs:
         java -version
         echo "Using JAVA_HOME: $JAVA_HOME"
         
-        ./gradlew assembleDebug --no-daemon --stacktrace -Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8
+        # Add explicit Gradle JVM args
+        export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8"
+        
+        ./gradlew assembleDebug --no-daemon --stacktrace --info
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
