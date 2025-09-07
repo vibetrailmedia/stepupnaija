@@ -15,12 +15,12 @@ const drRasheedImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCA
 const aishaImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 const emmanuelImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 const sarahImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
-import tariAvatarImage from "@/assets/tari-avatar.webp";
-import tariVideoThumbnail from "@/assets/tari-video-thumbnail.webp";
-import kamsiAvatarImage from "@/assets/kamsi-avatar.webp";
+const tariAvatarImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const tariVideoThumbnail = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const kamsiAvatarImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 // Using public directory path for video to fix playback issues
 const tariVideoUrl = "/tari-intro-video.mp4";
-import coatOfArmsImage from "@assets/Untitled design-4_1757162712832.png";
+const coatOfArmsImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 
 export default function LandingComprehensive() {
   const { language, t } = useLanguage();
@@ -401,585 +401,380 @@ export default function LandingComprehensive() {
         </div>
       </section>
 
-      {/* Dedicated #13K Challenge Explanation Section - Moved to Priority Position */}
-      <section id="challenge-explained" className="py-20 bg-gradient-to-br from-gray-900 to-green-900 text-white">
+      {/* TARI Video Introduction Section */}
+      <section id="tari-video" className="py-16 sm:py-20 bg-gradient-to-br from-green-50 via-white to-green-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center gap-3 mb-8">
-              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-8 py-4 rounded-full text-lg font-black shadow-xl">
-                🔥 WHAT IS THE #13K CHALLENGE?
-              </div>
-            </div>
-            
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6">
-              Nigeria's Most Ambitious
+          <div className="text-center mb-12">
+            <div className="text-sm text-green-600 font-semibold mb-4 uppercase tracking-wider">MEET OUR AI GUIDE</div>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              <span className="block">Meet TARI</span>
               <span className="block bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                Leadership Initiative
+                Your Civic Engagement Guide
               </span>
             </h2>
-            
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed opacity-90 px-4">
-              Nigeria's largest democratic participation platform where millions of citizens nominate, vote, and select 
-              13,000 credible leaders across all 774 Local Government Areas through transparent democratic processes.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {/* Phase 1 */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-center" style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}>
-              <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl font-black text-white">01</span>
-              </div>
-              <h3 className="font-display text-2xl font-bold mb-4 text-green-400">IDENTIFY</h3>
-              <p className="text-sm sm:text-base lg:text-lg leading-relaxed mb-4 text-white" style={{color: 'white !important'}}>
-                Community-driven nominations and verification of credible leaders with proven track records of integrity and service.
-              </p>
-              <div className="text-sm text-green-300 font-semibold">
-                Millions participating • 774 LGAs covered • 13,000 leaders selected
-              </div>
-            </div>
-            
-            {/* Phase 2 */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-center" style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}>
-              <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl font-black text-white">02</span>
-              </div>
-              <h3 className="font-display text-2xl font-bold mb-4 text-yellow-400">TRAIN</h3>
-              <p className="text-sm sm:text-base lg:text-lg leading-relaxed mb-4 text-white" style={{color: 'white !important'}}>
-                Comprehensive civic education, governance training, and leadership development programs for all identified leaders.
-              </p>
-              <div className="text-sm text-yellow-300 font-semibold">
-                Leadership workshops • Governance courses • Civic education
-              </div>
-            </div>
-            
-            {/* Phase 3 */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-center" style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}>
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl font-black text-white">03</span>
-              </div>
-              <h3 className="font-display text-2xl font-bold mb-4 text-blue-400">ORGANIZE</h3>
-              <p className="text-sm sm:text-base lg:text-lg leading-relaxed mb-4 text-white" style={{color: 'white !important'}}>
-                Create a coordinated network of trained leaders working together to drive positive change in every LGA.
-              </p>
-              <div className="text-sm text-blue-300 font-semibold">
-                774 LGAs • Coordinated action • Sustainable impact
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <Button 
-              size="lg" 
-              className="btn-luxury bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-400 hover:to-blue-500 text-white px-8 sm:px-10 lg:px-12 py-4 sm:py-5 lg:py-6 text-base sm:text-lg lg:text-xl font-black rounded-xl lg:rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-white/30 w-full sm:w-auto max-w-sm sm:max-w-none"
-              onClick={() => window.location.href = '/auth?mode=signup'}
-              data-testid="button-join-challenge-main"
-            >
-              🚀 JOIN THE #13K CHALLENGE NOW
-            </Button>
-            <p className="text-sm sm:text-base lg:text-lg mt-3 sm:mt-4 opacity-80 px-4">
-              Be part of Nigeria's leadership transformation • Earn SUP tokens • Win prizes
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Challenge Progress & Impact Section */}  
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 via-green-50/50 to-yellow-50/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Impact Statistics */}
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="inline-flex items-center justify-center gap-2 mb-6">
-              <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                📊 Live Progress Update
-              </div>
-            </div>
-            
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Building Nigeria's Future Together
-            </h2>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
-              Track our collective impact across Nigeria's 774 Local Government Areas
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              TARI (The AI Resource for Initiative) is your intelligent companion for navigating civic participation, 
+              earning SUP tokens, and discovering opportunities to make a meaningful impact in Nigeria.
             </p>
           </div>
 
-          {/* Progress Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 text-center shadow-2xl border border-white/20">
-              <div className="text-3xl sm:text-4xl font-black text-green-600 mb-2">3,247</div>
-              <div className="text-sm font-semibold text-gray-600">Leaders Identified</div>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
-                <div className="bg-green-500 h-2 rounded-full" style={{width: '25%'}}></div>
-              </div>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 text-center shadow-2xl border border-white/20">
-              <div className="text-3xl sm:text-4xl font-black text-yellow-600 mb-2">1,892</div>
-              <div className="text-sm font-semibold text-gray-600">In Training</div>
-              <div className="w-full bg-gray-200 rounded-full h-3 mt-3 border border-gray-300">
-                <div className="h-full rounded-full relative" style={{width: '15%'}}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-white to-green-600 rounded-full"></div>
-                  <div className="absolute inset-0 bg-green-600 opacity-80 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 text-center shadow-2xl border border-white/20">
-              <div className="text-3xl sm:text-4xl font-black text-blue-600 mb-2">774</div>
-              <div className="text-sm font-semibold text-gray-600">LGAs Reached</div>
-              <div className="w-full bg-gray-200 rounded-full h-3 mt-3 border border-gray-300">
-                <div className="h-full rounded-full relative" style={{width: '100%'}}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-white to-green-600 rounded-full"></div>
-                  <div className="absolute inset-0 bg-green-600 opacity-80 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 text-center shadow-2xl border border-white/20">
-              <div className="text-3xl sm:text-4xl font-black text-purple-600 mb-2">₦2.1M</div>
-              <div className="text-sm font-semibold text-gray-600">Community Impact</div>
-              <div className="text-xs text-gray-500 mt-1">Projects Funded</div>
-            </div>
-          </div>
-
-          {/* Community Testimonials */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20">
-            <h3 className="text-xl sm:text-2xl font-bold text-center mb-8 text-gray-900">
-              Voices from the Movement
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white font-bold text-sm">AA</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900 text-sm">Aisha A.</p>
-                    <p className="text-xs text-gray-600">Lagos State Leader</p>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-700 italic">
-                  "The #13K Challenge gave me the tools to organize my community. We've completed 3 major projects already!"
-                </p>
-              </div>
-              
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white font-bold text-sm">EM</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900 text-sm">Emmanuel M.</p>
-                    <p className="text-xs text-gray-600">Rivers State Coordinator</p>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-700 italic">
-                  "From participating to leading - this platform transformed my civic engagement approach completely."
-                </p>
-              </div>
-              
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white font-bold text-sm">FI</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900 text-sm">Fatima I.</p>
-                    <p className="text-xs text-gray-600">Kano State Coordinator</p>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-700 italic">
-                  "Being part of the #13K Challenge opened doors I never knew existed. Now I'm leading youth engagement programs across 5 LGAs."
-                </p>
-              </div>
-            </div>
-
-            <div className="text-center mt-8">
-              <Button 
-                variant="outline" 
-                className="border-2 border-yellow-400 bg-white/20 backdrop-blur-sm text-gray-800 hover:bg-yellow-400/20 px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300"
-                onClick={() => window.location.href = '/testimonials'}
-                data-testid="button-view-testimonials"
-              >
-                View More Stories
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TARI Introduction Video Section - Moved After Challenge Progress */}
-      <section id="tari-video" className="py-16 sm:py-20 bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6 sm:mb-12 lg:mb-16 animate-luxury-slide-up">
-            {/* Mobile Version */}
-            <div className="sm:hidden">
-              <div className="inline-flex items-center justify-center mb-4">
-                <div className="bg-gradient-to-r from-green-600 to-yellow-500 text-white px-4 py-2 rounded-full text-xs font-semibold tracking-wide shadow-lg">
-                  AI-Powered Civic Guide
-                </div>
-              </div>
-              
-              <h2 className="font-display text-2xl font-black text-gray-900 mb-4 tracking-tight leading-tight px-4">
-                Meet
-                <span className="block bg-gradient-to-r from-green-600 via-yellow-500 to-orange-600 bg-clip-text text-transparent font-black text-3xl">
-                  TARI
-                </span>
-              </h2>
-              
-              <p className="text-base text-gray-700 max-w-sm mx-auto leading-relaxed mb-6 font-medium px-4">
-                Your AI-powered companion for navigating Nigerian civic engagement
-              </p>
-            </div>
-
-            {/* Desktop Version */}
-            <div className="hidden sm:block">
-              <div className="inline-flex items-center justify-center mb-6">
-                <div className="bg-gradient-to-r from-green-600 to-yellow-500 text-white px-6 py-3 rounded-full text-sm font-semibold tracking-wide shadow-lg">
-                  AI-Powered Civic Guide
-                </div>
-              </div>
-              
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 mb-6 tracking-tight leading-tight">
-                Meet
-                <span className="block bg-gradient-to-r from-green-600 via-yellow-500 to-orange-600 bg-clip-text text-transparent font-black">
-                  TARI
-                </span>
-              </h2>
-              
-              <p className="text-lg md:text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8 lg:mb-12 font-medium">
-                Your AI-powered companion for navigating Nigerian civic engagement
-              </p>
-            </div>
-
-            {/* TARI Introduction Video */}
-            <div className="max-w-4xl mx-auto mb-6 sm:mb-8 lg:mb-12">
-              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20 hover:bg-white/15 transition-all duration-500">
-                <div className="aspect-video bg-gradient-to-br from-green-50 to-blue-50">
-                  <video 
-                    src="/tari-intro-web.mp4"
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Video Section */}
+            <div className="relative">
+              <div className="relative bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-6 shadow-2xl">
+                <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden bg-white shadow-lg">
+                  <VideoPlayer
+                    src={tariVideoUrl}
                     poster={tariVideoThumbnail}
-                    className="w-full h-full rounded-lg"
-                    controls
-                    preload="auto"
-                    playsInline
-                    style={{ backgroundColor: '#000' }}
-                  >
-                    <source src="/tari-intro-web.mp4" type="video/mp4" />
-                    <p>Your browser does not support the video tag. Please update your browser or <a href="/tari-intro-web.mp4" target="_blank">download the video</a>.</p>
-                  </video>
+                    title="TARI Introduction Video"
+                    className="w-full h-full"
+                  />
                 </div>
                 
-                <div className="p-4 lg:p-6 bg-gradient-to-r from-green-500/10 to-yellow-500/10 backdrop-blur-sm border-t border-white/20">
-                  <div className="text-center">
-                    <h3 className="font-bold text-lg lg:text-xl text-gray-900 mb-2">
-                      Meet Tari - Your Civic Authority Guide
-                    </h3>
-                    <p className="text-gray-700 text-sm lg:text-base leading-relaxed">
-                      Your AI-powered companion for navigating Nigerian civic engagement and the #13K Credible Challenge
-                    </p>
+                {/* Video Stats */}
+                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3">
+                    <div className="text-lg font-bold text-green-600">4.9⭐</div>
+                    <div className="text-xs text-gray-600 font-medium">User Rating</div>
+                  </div>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3">
+                    <div className="text-lg font-bold text-blue-600">10K+</div>
+                    <div className="text-xs text-gray-600 font-medium">Views</div>
+                  </div>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3">
+                    <div className="text-lg font-bold text-purple-600">98%</div>
+                    <div className="text-xs text-gray-600 font-medium">Helpful</div>
                   </div>
                 </div>
               </div>
             </div>
-            {/* AI Guide Cards - Concise & Elegant */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              {/* TARI - Authority Guide */}
-              <div className="group cursor-pointer" onClick={() => window.location.href = '/meet-your-guides'}>
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 overflow-hidden p-6">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-green-500/5"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/30 shadow-lg bg-white/10 backdrop-blur-sm">
-                        <img 
-                          src={tariAvatarImage} 
-                          alt="Tari Avatar" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 bg-blue-500 rounded-full p-1">
-                        <Shield className="w-3 h-3 text-white" />
-                      </div>
-                    </div>
-                    
-                    <h3 className="font-display text-xl font-bold text-gray-900 mb-2">TARI</h3>
-                    <div className="text-xs font-semibold text-blue-700 bg-blue-100/50 px-3 py-1 rounded-full mb-3">
-                      Authority Guide
-                    </div>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Navigate government processes & official resources
-                    </p>
+
+            {/* Content Section */}
+            <div className="space-y-8">
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                    <MessageSquare className="w-8 h-8 text-white" />
                   </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Personalized Guidance</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    TARI learns your interests and location to recommend the most relevant civic activities,
+                    community projects, and leadership opportunities in your area.
+                  </p>
                 </div>
               </div>
 
-              {/* KAMSI - Community Guide */}
-              <div className="group cursor-pointer" onClick={() => window.location.href = '/meet-your-guides'}>
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 overflow-hidden p-6">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-yellow-500/5"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/30 shadow-lg bg-white/10 backdrop-blur-sm">
-                        <img 
-                          src={kamsiAvatarImage} 
-                          alt="Kamsi Avatar" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1">
-                        <Heart className="w-3 h-3 text-white" />
-                      </div>
-                    </div>
-                    
-                    <h3 className="font-display text-xl font-bold text-gray-900 mb-2">KAMSI</h3>
-                    <div className="text-xs font-semibold text-green-700 bg-green-100/50 px-3 py-1 rounded-full mb-3">
-                      Community Guide
-                    </div>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Build networks & create lasting community change
-                    </p>
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Zap className="w-8 h-8 text-white" />
                   </div>
                 </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Instant Support</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Get real-time answers about SUP tokens, voting processes, community events, and
+                    how to maximize your civic impact across Nigeria's 774 LGAs.
+                  </p>
+                </div>
               </div>
-            </div>
-            
-            {/* Meet Your Guides button */}
-            <div className="text-center mt-12">
-              <Button 
-                className="bg-gradient-to-r from-green-600 via-blue-600 to-yellow-600 hover:from-green-700 hover:via-blue-700 hover:to-yellow-700 text-white px-10 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0"
-                onClick={() => window.location.href = '/meet-your-guides'}
-                data-testid="button-meet-guides"
-              >
-                <Users className="w-5 h-5 mr-3" />
-                Meet Your Civic Guides
-                <Sparkles className="w-5 h-5 ml-3" />
-              </Button>
+
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Heart className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Community Connection</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Connect with verified community leaders, join local initiatives, and discover
+                    collaborative opportunities to drive positive change in your region.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-50 to-yellow-50 rounded-xl p-6 border border-green-200 shadow-lg">
+                <div className="flex items-center mb-3">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-green-300 mr-3">
+                    <img 
+                      src={tariAvatarImage} 
+                      alt="TARI Avatar" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">TARI</div>
+                    <div className="text-sm text-green-600">AI Civic Guide</div>
+                  </div>
+                </div>
+                <p className="text-gray-700 italic">
+                  "Hello! I'm here to help you navigate your civic journey. Whether you're earning SUP tokens,
+                  exploring leadership opportunities, or looking to make an impact in your community, I'll guide
+                  you every step of the way. Let's build a better Nigeria together! 🇳🇬"
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-6 rounded-xl shadow-lg"
+                  onClick={() => window.location.href = '/auth?mode=signup'}
+                  data-testid="button-start-with-tari"
+                >
+                  Start with TARI
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="flex-1 border-2 border-green-600 text-green-600 hover:bg-green-50 font-semibold py-3 px-6 rounded-xl"
+                  onClick={() => window.location.href = '/tari-demo'}
+                  data-testid="button-tari-demo"
+                >
+                  Try Demo
+                </Button>
+              </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="text-sm text-green-600 font-semibold mb-4 uppercase tracking-wider">HOW IT works</div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-4xl font-bold text-gray-900 mb-6">
-              How millions choose 13,000 credible leaders democratically
+          <div className="text-center mb-16">
+            <div className="text-sm text-blue-600 font-semibold mb-4 uppercase tracking-wider">HOW IT WORKS</div>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              <span className="block">Your path to civic leadership</span>
+              <span className="block bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+                in 4 simple steps
+              </span>
             </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Join millions of Nigerians building a more transparent, accountable, and participatory democracy
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Step 1 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-yellow-500/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white/20 shadow-lg">
-                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">1</span>
+            <div className="relative group">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 shadow-2xl text-center transform group-hover:scale-105 transition-all duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <span className="text-2xl font-black text-white">1</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Join Free</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Sign up with your phone number or email. No fees, no hidden costs. Complete your profile and verify your Nigerian identity.
+                </p>
+                <div className="bg-green-50 rounded-lg p-3">
+                  <div className="text-sm font-semibold text-green-600">💡 Quick Tip</div>
+                  <div className="text-xs text-green-700 mt-1">Verification takes 30 seconds</div>
                 </div>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Sign Up Free</h3>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                Create your account using secure authentication. No fees, no hidden costs. 
-                Join the movement with just one click.
-              </p>
+              {/* Connection Line */}
+              <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 w-8 h-0.5 bg-gradient-to-r from-green-300 to-yellow-300"></div>
             </div>
 
             {/* Step 2 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-500/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white/20 shadow-lg">
-                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">2</span>
+            <div className="relative group">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 shadow-2xl text-center transform group-hover:scale-105 transition-all duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <span className="text-2xl font-black text-white">2</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Engage & Earn</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Complete civic quizzes, surveys, and community activities to earn SUP tokens. Each token = ₦100 value.
+                </p>
+                <div className="bg-yellow-50 rounded-lg p-3">
+                  <div className="text-sm font-semibold text-yellow-600">🏆 Earn Range</div>
+                  <div className="text-xs text-yellow-700 mt-1">5-50 SUP tokens daily</div>
                 </div>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Nominate Leaders</h3>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                Nominate credible leaders from your community. Complete civic activities and 
-                earn SUP tokens (₦100 = 1 SUP) while building Nigeria's democracy.
-              </p>
+              {/* Connection Line */}
+              <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 w-8 h-0.5 bg-gradient-to-r from-yellow-300 to-blue-300"></div>
             </div>
 
             {/* Step 3 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white/20 shadow-lg">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">3</span>
+            <div className="relative group">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 shadow-2xl text-center transform group-hover:scale-105 transition-all duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <span className="text-2xl font-black text-white">3</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Vote & Lead</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Use your tokens to vote for community projects and credible leaders. Run for leadership positions in your LGA.
+                </p>
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <div className="text-sm font-semibold text-blue-600">🗳️ Your Voice</div>
+                  <div className="text-xs text-blue-700 mt-1">Shapes community future</div>
                 </div>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Vote & Win</h3>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                Vote for your preferred leaders and enter weekly prize draws with earned tokens. 
-                Win cash prizes while participating in Nigeria's democratic process.
-              </p>
+              {/* Connection Line */}
+              <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 w-8 h-0.5 bg-gradient-to-r from-blue-300 to-purple-300"></div>
             </div>
 
             {/* Step 4 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-500/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white/20 shadow-lg">
-                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">4</span>
+            <div className="relative group">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 shadow-2xl text-center transform group-hover:scale-105 transition-all duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <span className="text-2xl font-black text-white">4</span>
                 </div>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Select Leaders</h3>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                Help choose 13,000 credible leaders across 774 LGAs through democratic voting. 
-                Connect with chosen leaders and see your community's transformation.
-              </p>
-            </div>
-          </div>
-
-          {/* Platform Features */}
-          <div className="mt-16 bg-white/10 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-500">
-            <h3 className="font-display text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">Platform Features</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-yellow-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mr-4 flex-shrink-0 border border-white/20">
-                  <Zap className="w-6 h-6 text-yellow-600" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">SUP Token Economy</h4>
-                  <p className="text-sm text-gray-600">Earn, spend, and win with our transparent token system. Every civic action is rewarded.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-green-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mr-4 flex-shrink-0 border border-white/20">
-                  <Shield className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Secure & Transparent</h4>
-                  <p className="text-sm text-gray-600">Your data is protected, transactions are transparent, and progress is tracked publicly.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-blue-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mr-4 flex-shrink-0 border border-white/20">
-                  <Trophy className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Real Impact</h4>
-                  <p className="text-sm text-gray-600">Track your contributions to Nigeria's development across all 774 Local Government Areas.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Win & Impact</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Enter weekly prize draws, win cash rewards, and see your community projects come to life through collective action.
+                </p>
+                <div className="bg-purple-50 rounded-lg p-3">
+                  <div className="text-sm font-semibold text-purple-600">💰 Weekly Prizes</div>
+                  <div className="text-xs text-purple-700 mt-1">Up to ₦500,000</div>
                 </div>
               </div>
             </div>
           </div>
 
-
-        </div>
-      </section>
-
-      {/* About Us Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 to-green-50 relative overflow-hidden">
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="text-lg text-green-600 font-bold uppercase tracking-wider mb-4">ABOUT US</div>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="max-w-2xl">
-              <h3 className="font-display text-2xl sm:text-3xl lg:text-3xl font-bold text-gray-900 mb-6 leading-tight">
-                Mobilizing Nigerians to become active change-makers.
-              </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Step Up Naija (SUN) is the public-facing initiative of <strong>CIRAD Good Governance Advocacy Foundation</strong>, 
-                a registered Nigerian NGO dedicated to civic empowerment, accountability, and leadership development.
-              </p>
-              <p className="text-base text-gray-500 mb-8 leading-relaxed">
-                Our mission: empowering millions of Nigerians to democratically nominate, vote, and select 13,000 credible leaders across all 774 Local Government Areas 
-                through transparent, community-driven democratic processes.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  className="btn-luxury bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-semibold focus-luxury"
-                  data-testid="button-learn-more"
-                  onClick={() => window.location.href = '/about'}
-                >
-                  Learn More About CIRAD
-                </Button>
-                <Button 
-                  variant="outline"
-                  className="border-green-600 text-green-600 hover:bg-green-50 px-6 py-3 rounded-lg font-medium focus-luxury"
-                  data-testid="button-join-challenge"
-                  onClick={() => window.location.href = '/challenge'}
-                >
-                  Join the Challenge
-                </Button>
-              </div>
+          {/* Success Metrics */}
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-xl rounded-full px-6 py-3 border border-white/30 shadow-2xl mb-8">
+              <Sparkles className="w-5 h-5 text-yellow-500" />
+              <span className="text-sm font-bold text-gray-800">Join 3,247+ Active Civic Leaders</span>
             </div>
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-xl overflow-hidden shadow-xl border border-green-200/30 hover-lift">
-                <img 
-                  src={youthEngagementImage} 
-                  alt="Nigerian youth in civic engagement" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+
+            <Button 
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white px-8 py-4 text-lg font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300"
+              onClick={() => window.location.href = '/auth?mode=signup'}
+              data-testid="button-start-journey"
+            >
+              🚀 Start Your Journey
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Support Our Cause Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
+      {/* Features Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 via-green-50/30 to-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="text-sm text-green-600 font-semibold mb-4 uppercase tracking-wider">SUPPORT OUR CAUSE</div>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
-                Every donation helps us build stronger platforms
-              </h2>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Every donation helps us to build stronger platforms, offer more resources, and reach more
-                Nigerians eager to 'Step Up' and make a difference.
+          <div className="text-center mb-16">
+            <div className="text-sm text-green-600 font-semibold mb-4 uppercase tracking-wider">PLATFORM FEATURES</div>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              Everything you need for civic engagement
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Comprehensive tools for democratic participation, community building, and transparent governance
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">SUP Token System</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Earn digital currency for civic participation. 1 SUP token = ₦100 value for voting and prize entries.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Community Projects</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Propose, vote on, and fund local development projects with transparent allocation and progress tracking.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center mb-4">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Weekly Prizes</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Enter draws to win cash prizes up to ₦500,000 weekly, funded by community contributions and partners.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Transparent Voting</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Blockchain-secured voting system ensuring every voice counts in selecting credible leaders across 774 LGAs.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-lg flex items-center justify-center mb-4">
+                <MessageSquare className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">AI Guidance</h3>
+              <p className="text-gray-600 leading-relaxed">
+                TARI AI provides personalized civic education, activity recommendations, and real-time support.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20 shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-lg flex items-center justify-center mb-4">
+                <Heart className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Impact Tracking</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Monitor your civic contributions, community projects progress, and collective impact across Nigeria.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 shadow-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to make a difference?</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Join the most comprehensive civic engagement platform in Nigeria and be part of the change you want to see.
               </p>
               <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black px-8 py-4 text-lg font-semibold rounded-lg"
-                data-testid="button-fund-movement-footer"
+                size="lg"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-4 text-lg font-bold rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-300"
+                onClick={() => window.location.href = '/auth?mode=signup'}
+                data-testid="button-get-started-features"
               >
-                Fund the Movement
+                Get Started Today
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="relative">
-              {/* Nigerian Coat of Arms Reference */}
-              <div className="absolute -top-8 -right-8 z-10 bg-white/20 rounded-full p-2">
-                <img 
-                  src={coatOfArmsImage} 
-                  alt="Nigerian Coat of Arms"
-                  className="w-28 h-28 object-contain drop-shadow-lg"
-                  onError={(e) => {
-                    console.error('Coat of arms image failed to load:', coatOfArmsImage);
-                  }}
-                />
+      {/* Trust & Security Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-green-100 via-yellow-50 to-green-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="text-sm text-green-600 font-semibold mb-4 uppercase tracking-wider">TRUST & TRANSPARENCY</div>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight max-w-4xl mx-auto">
+              Built on trust, secured by technology, verified by impact
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="flex items-center bg-white/10 backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl">
+                <Shield className="w-8 h-8 text-green-600 mr-4" />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Blockchain Security</h4>
+                  <p className="text-sm text-gray-600">All votes and transactions are cryptographically secured and publicly verifiable</p>
+                </div>
               </div>
-              <h3 className="font-display text-2xl font-bold text-gray-900 mb-6">Trusted & Verified</h3>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center bg-white/10 backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl">
-                  <Shield className="w-8 h-8 text-green-600 mr-4" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">CAC Registered NGO</h4>
-                    <p className="text-sm text-gray-600">Corporate Affairs Commission certified organization</p>
-                  </div>
+              <div className="flex items-center bg-white/10 backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl">
+                <Users className="w-8 h-8 text-blue-600 mr-4" />
+                <div>
+                  <h4 className="font-semibold text-gray-900">CAC Registration</h4>
+                  <p className="text-sm text-gray-600">Officially registered organization with Corporate Affairs Commission</p>
                 </div>
-                <div className="flex items-center bg-white/10 backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl">
-                  <Users className="w-8 h-8 text-blue-600 mr-4" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Transparent Operations</h4>
-                    <p className="text-sm text-gray-600">All transactions and activities publicly auditable</p>
-                  </div>
-                </div>
-                <div className="flex items-center bg-white/10 backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl">
-                  <Trophy className="w-8 h-8 text-yellow-600 mr-4" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Award-Winning Platform</h4>
-                    <p className="text-sm text-gray-600">Recognized for civic innovation and community impact</p>
-                  </div>
+              </div>
+              <div className="flex items-center bg-white/10 backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl">
+                <Trophy className="w-8 h-8 text-yellow-600 mr-4" />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Award-Winning Platform</h4>
+                  <p className="text-sm text-gray-600">Recognized for civic innovation and community impact</p>
                 </div>
               </div>
               
@@ -1245,11 +1040,6 @@ export default function LandingComprehensive() {
           </div>
         </div>
       </section>
-
-
-
-
-
 
     </div>
   );
