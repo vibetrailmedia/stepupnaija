@@ -19,7 +19,7 @@ workflows:
           npm ci
       - name: Build web app
         script: |
-          npx vite build
+          npx vite build --config vite.config.mobile.ts
       - name: Update dependencies and build Capacitor iOS
         script: |
           npx cap sync ios
