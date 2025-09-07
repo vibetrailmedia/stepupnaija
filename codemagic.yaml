@@ -1,0 +1,66 @@
+workflows:
+  step-up-naija-workflow:
+    name: Step Up Naija Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: Automatic iOS
+      google_play: Automatic Android
+    environment:
+      groups:
+        # Add environment variables if needed
+      vars:
+        # Public variables
+        CAPACITOR_CLI_NO_TELEMETRY: true
+      node: 18.17.0
+      npm: 9
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - node_modules
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm ci
+      - name: Build web app
+        script: |
+          npm run build
+      - name: Update dependencies and build Capacitor iOS
+        script: |
+          npx cap sync ios
+      - name: Set up provisioning profiles settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Build iOS
+        script: |
+          xcode-project build-ipa \
+            --workspace ios/App/App.xcworkspace \
+            --scheme App \
+            --archive-flags="-destination 'generic/platform=iOS'"
+      - name: Update dependencies and build Capacitor Android
+        script: |
+          npx cap sync android
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build Android
+        script: |
+          cd android && ./gradlew assembleRelease
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - android/app/build/outputs/**/*.apk
+      - android/app/build/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - stepupnaija@example.com
+        notify:
+          success: true
+          failure: true
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false
+        beta_groups:
+          - App Store Connect Users
+      google_play:
+        auth: integration
+        submit_to_internal_testing: false

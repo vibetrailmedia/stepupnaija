@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Step Up Naija",
+    "slug": "step-up-naija",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./attached_assets/primary-logo_1756495358509.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./attached_assets/primary-logo_1756495358509.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#22C55E"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stepupnaija.app",
+      "buildNumber": "1",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./attached_assets/primary-logo_1756495358509.png",
+        "backgroundColor": "#22C55E"
+      },
+      "package": "com.stepupnaija.app",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
+    },
+    "web": {
+      "favicon": "./attached_assets/primary-logo_1756495358509.png",
+      "bundler": "metro"
+    },
+    "plugins": [],
+    "scheme": "stepupnaija",
+    "description": "Step Up Naija - Nigerian Civic Engagement Platform for the #13K Credible Challenge. Empowering millions of Nigerians to participate in transparent governance, community projects, and leadership selection.",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "d7548932-be47-49c8-a190-96db7ad81c9e"
+      }
+    }
+  }
+}
