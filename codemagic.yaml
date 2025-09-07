@@ -3,12 +3,7 @@ workflows:
     name: Step Up Naija Build
     max_build_duration: 120
     instance_type: mac_mini_m2
-    integrations:
-      app_store_connect: Automatic iOS
-      google_play: Automatic Android
     environment:
-      groups:
-        # Add environment variables if needed
       vars:
         # Public variables
         CAPACITOR_CLI_NO_TELEMETRY: true
@@ -57,10 +52,12 @@ workflows:
           success: true
           failure: true
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER  
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: false
         beta_groups:
           - App Store Connect Users
       google_play:
-        auth: integration
-        submit_to_internal_testing: false
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
