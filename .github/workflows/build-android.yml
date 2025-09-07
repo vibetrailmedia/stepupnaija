@@ -21,42 +21,49 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Setup Node.js with nvm fallback
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Configure npm for better reliability
       run: |
-        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-        sudo apt-get install -y nodejs
+        npm config set registry https://registry.npmjs.org/
+        npm config set fetch-retries 5
+        npm config set fetch-retry-mintimeout 20000
+        npm config set fetch-retry-maxtimeout 120000
+        npm config set fetch-timeout 300000
+        npm config set maxsockets 1
         
         echo "Node.js version: $(node --version)"
         echo "NPM version: $(npm --version)"
-        
-        if ! command -v node &> /dev/null || [[ $(node --version | cut -d'v' -f2 | cut -d'.' -f1) -lt 18 ]]; then
-          echo "Installing Node.js via nvm..."
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install 20
-          nvm use 20
-        fi
-        
-        echo "Final Node.js version: $(node --version)"
-        echo "Final NPM version: $(npm --version)"
         echo "Java version: $(java -version)"
         echo "JAVA_HOME: $JAVA_HOME"
     
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.npm
-          node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    
-    - name: Install dependencies
+    - name: Install dependencies with retry
       run: |
-        echo "Installing project dependencies..."
-        npm ci --prefer-offline --no-audit --no-fund
+        echo "Installing project dependencies with network resilience..."
+        
+        # Function to install with retries
+        install_with_retry() {
+          for i in {1..5}; do
+            echo "Attempt $i/5: Installing dependencies..."
+            if npm ci --prefer-offline --no-audit --no-fund --maxsockets=1; then
+              echo "✅ Dependencies installed successfully on attempt $i"
+              return 0
+            else
+              echo "❌ Attempt $i failed, waiting 30 seconds before retry..."
+              sleep 30
+            fi
+          done
+          
+          echo "All attempts failed, trying with different approach..."
+          # Fallback: try regular install
+          npm install --prefer-offline --no-audit --no-fund --maxsockets=1
+        }
+        
+        install_with_retry
     
     - name: Create index.html if missing
       run: |
@@ -137,8 +144,19 @@ jobs:
           cp index.html dist/public/ 2>/dev/null || true
         fi
     
-    - name: Install Capacitor CLI
-      run: npm install -g @capacitor/cli@latest
+    - name: Install Capacitor CLI with retry
+      run: |
+        # Install Capacitor CLI with retries
+        for i in {1..3}; do
+          echo "Attempt $i/3: Installing Capacitor CLI..."
+          if npm install -g @capacitor/cli@latest --maxsockets=1; then
+            echo "✅ Capacitor CLI installed successfully"
+            break
+          else
+            echo "❌ Attempt $i failed, waiting 15 seconds..."
+            sleep 15
+          fi
+        done
     
     - name: Initialize Capacitor
       run: |
