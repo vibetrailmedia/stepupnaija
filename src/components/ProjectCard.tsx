@@ -11,12 +11,12 @@ import { Link } from "wouter";
 import { useState } from "react";
 
 // Import generated project images
-import ogunFarmImage from "@assets/generated_images/Ogun_farmers_cooperative_facility_c3448180.png";
-import riversYouthImage from "@assets/generated_images/Rivers_youth_skill_training_center_5a73d8af.png";
-import lagosWaterImage from "@assets/generated_images/Lagos_clean_water_project_impact_a203262d.png";
-import abujaSchoolImage from "@assets/generated_images/Abuja_school_technology_lab_students_47624343.png";
-import crossRiverRoadsImage from "@assets/generated_images/Cross_River_road_construction_project_969e2349.png";
-import kanoClinicImage from "@assets/generated_images/Kano_solar_health_clinic_installation_aa20defb.png";
+const ogunFarmImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const riversYouthImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const lagosWaterImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const abujaSchoolImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const crossRiverRoadsImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const kanoClinicImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 
 interface ProjectCardProps {
   project: any;
