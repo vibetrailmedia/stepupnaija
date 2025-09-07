@@ -163,17 +163,22 @@ jobs:
         
         echo "Fixing Gradle properties for Java 17..."
         
+        # Get the actual JAVA_HOME path dynamically
+        ACTUAL_JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+        echo "Detected JAVA_HOME: $ACTUAL_JAVA_HOME"
+        
         if [ -f "gradle.properties" ]; then
           sed -i '/org.gradle.jvmargs/d' gradle.properties
           sed -i '/java.sourceCompatibility/d' gradle.properties
           sed -i '/java.targetCompatibility/d' gradle.properties
+          sed -i '/org.gradle.java.home/d' gradle.properties
         fi
         
-        cat >> gradle.properties << 'EOF'
+        cat >> gradle.properties << EOF
 
         # Java 17 Configuration
         org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:+UseParallelGC
-        org.gradle.java.home=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
+        org.gradle.java.home=$ACTUAL_JAVA_HOME
         EOF
         
         if [ -f "app/build.gradle" ]; then
@@ -203,18 +208,22 @@ jobs:
         
         echo "Current Java setup:"
         java -version
-        echo "JAVA_HOME: $JAVA_HOME"
+        echo "ACTUAL_JAVA_HOME: $ACTUAL_JAVA_HOME"
+        echo "System JAVA_HOME: $JAVA_HOME"
     
     - name: Build Android APK
       run: |
         cd android
         chmod +x ./gradlew
         
-        export JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
+        # Get the actual JAVA_HOME path dynamically
+        ACTUAL_JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+        export JAVA_HOME=$ACTUAL_JAVA_HOME
         export PATH=$JAVA_HOME/bin:$PATH
         
         echo "Java version for Android build:"
         java -version
+        echo "Using JAVA_HOME: $JAVA_HOME"
         
         ./gradlew assembleDebug --no-daemon --stacktrace -Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8
     
