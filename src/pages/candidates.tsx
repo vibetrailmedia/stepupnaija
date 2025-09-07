@@ -31,10 +31,10 @@ import {
 import { useLocation } from "wouter";
 
 // Import generated candidate images
-import womanProfessionalImage from "@assets/generated_images/Nigerian_woman_professional_headshot_b062e128.png";
-import manProfessionalImage from "@assets/generated_images/Nigerian_man_professional_headshot_671c9909.png";
-import academicWomanImage from "@assets/generated_images/Nigerian_academic_woman_portrait_2110a518.png";
-import youngProfessionalImage from "@assets/generated_images/Nigerian_young_professional_headshot_5f929c22.png";
+const womanProfessionalImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const manProfessionalImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const academicWomanImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const youngProfessionalImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 
 // Map server asset paths to imported images
 const candidateImageMap: Record<string, string> = {
