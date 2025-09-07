@@ -44,6 +44,7 @@ jobs:
         echo "Final Node.js version: $(node --version)"
         echo "Final NPM version: $(npm --version)"
         echo "Java version: $(java -version)"
+        echo "JAVA_HOME: $JAVA_HOME"
     
     - name: Cache dependencies
       uses: actions/cache@v4
@@ -83,12 +84,6 @@ jobs:
         </html>
         EOF
         fi
-        
-        # List available files for debugging
-        echo "Available files in root:"
-        ls -la
-        echo "Available files in src:"
-        ls -la src/ 2>/dev/null || echo "No src directory"
     
     - name: Install ImageMagick
       run: |
@@ -176,17 +171,80 @@ jobs:
         npx cap copy android
         npx cap sync android
     
+    - name: Fix Android Gradle Java version
+      run: |
+        cd android
+        
+        # Fix gradle.properties to use Java 17
+        echo "Fixing Gradle properties for Java 17..."
+        
+        # Update gradle.properties
+        if [ -f "gradle.properties" ]; then
+          # Remove any existing Java version configurations
+          sed -i '/org.gradle.jvmargs/d' gradle.properties
+          sed -i '/java.sourceCompatibility/d' gradle.properties
+          sed -i '/java.targetCompatibility/d' gradle.properties
+        fi
+        
+        # Add Java 17 configuration
+        cat >> gradle.properties << 'EOF'
+
+# Java 17 Configuration
+org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:+UseParallelGC
+org.gradle.java.home=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
+EOF
+        
+        # Fix app/build.gradle to use Java 17
+        if [ -f "app/build.gradle" ]; then
+          echo "Fixing app/build.gradle for Java 17..."
+          
+          # Update compileOptions and kotlinOptions
+          sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/' app/build.gradle
+          sed -i 's/jvmTarget = ".*"/jvmTarget = "17"/' app/build.gradle
+          sed -i 's/jvmTarget = .*/jvmTarget = "17"/' app/build.gradle
+          
+          # Add or update Java compatibility
+          if ! grep -q "compileOptions" app/build.gradle; then
+            cat >> app/build.gradle << 'EOF'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+EOF
+          fi
+        fi
+        
+        # Fix capacitor-android module if it exists
+        if [ -f "capacitor-android/build.gradle" ]; then
+          echo "Fixing capacitor-android/build.gradle for Java 17..."
+          sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/' capacitor-android/build.gradle
+        fi
+        
+        echo "✅ Android Gradle configuration updated for Java 17"
+        
+        # Verify Java configuration
+        echo "Current Java setup:"
+        java -version
+        echo "JAVA_HOME: $JAVA_HOME"
+    
     - name: Build Android APK
       run: |
         cd android
         chmod +x ./gradlew
         
+        # Set explicit Java 17 environment
+        export JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
+        export PATH=$JAVA_HOME/bin:$PATH
+        
         # Verify Java version before building
         echo "Java version for Android build:"
         java -version
         
-        # Build with proper Java version
-        ./gradlew assembleDebug --no-daemon --stacktrace
+        # Build with explicit Java 17 and Gradle options
+        ./gradlew assembleDebug --no-daemon --stacktrace \
+          -Dorg.gradle.java.home=$JAVA_HOME \
+          -Dfile.encoding=UTF-8
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
