@@ -23,15 +23,12 @@ jobs:
     
     - name: Setup Node.js with nvm fallback
       run: |
-        # Try to use setup-node action first
         curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
         sudo apt-get install -y nodejs
         
-        # Verify Node.js installation
         echo "Node.js version: $(node --version)"
         echo "NPM version: $(npm --version)"
         
-        # Fallback to nvm if needed
         if ! command -v node &> /dev/null || [[ $(node --version | cut -d'v' -f2 | cut -d'.' -f1) -lt 18 ]]; then
           echo "Installing Node.js via nvm..."
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
@@ -65,7 +62,6 @@ jobs:
       run: |
         echo "Checking for index.html files..."
         
-        # Check if index.html exists in root or create it
         if [ ! -f "index.html" ]; then
           echo "Creating index.html in root directory..."
           cat > index.html << 'EOF'
@@ -94,11 +90,9 @@ jobs:
       run: |
         echo "Verifying asset files exist and fixing component imports..."
         
-        # Create attached_assets directory and placeholder
         mkdir -p attached_assets/generated_images
         echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" | base64 -d > "attached_assets/generated_images/Nigerian_youth_civic_engagement_scene_024f101a.png"
         
-        # Fix component import issues if files exist
         if [ -f "src/pages/community-chat.tsx" ]; then
           sed -i 's/RealtimeNotifications/RealTimeNotifications/g' src/pages/community-chat.tsx
           sed -i 's/@\/components\/RealtimeNotifications/@\/components\/RealTimeNotifications/g' src/pages/community-chat.tsx
@@ -110,7 +104,6 @@ jobs:
     - name: Build web app
       run: |
         echo "Building web app..."
-        # Try to build with mobile config, fallback to regular vite build
         if [ -f "vite.config.mobile.ts" ]; then
           npx vite build --config vite.config.mobile.ts
         else
@@ -120,7 +113,6 @@ jobs:
         echo "Build completed. Checking output directories:"
         ls -la . | grep -E "(dist|build)"
         
-        # Ensure dist/public exists with correct structure for Capacitor
         if [ -d "dist/public" ]; then
           echo "✅ dist/public directory exists"
         elif [ -d "dist" ]; then
@@ -137,11 +129,9 @@ jobs:
           cp index.html dist/public/ 2>/dev/null || true
         fi
         
-        # Verify final structure
         echo "Final dist/public contents:"
         ls -la dist/public/ 2>/dev/null || echo "dist/public not found"
         
-        # Ensure index.html exists in dist/public
         if [ ! -f "dist/public/index.html" ]; then
           echo "Creating index.html in dist/public"
           cp index.html dist/public/ 2>/dev/null || true
@@ -152,21 +142,17 @@ jobs:
     
     - name: Initialize Capacitor
       run: |
-        # Initialize Capacitor if not already done
         if [ ! -f "capacitor.config.ts" ] && [ ! -f "capacitor.config.json" ]; then
           npx cap init "Step Up Naija" "com.stepup.naija" --web-dir="dist/public"
         fi
         
-        # Verify web directory exists
         echo "Verifying web directory for Capacitor:"
         ls -la dist/public/ 2>/dev/null || echo "❌ dist/public still missing"
     
     - name: Add Android platform
       run: |
-        # Remove existing android directory if it exists
         rm -rf android 2>/dev/null || true
         
-        # Add Android platform fresh
         npx cap add android
         npx cap copy android
         npx cap sync android
@@ -175,47 +161,39 @@ jobs:
       run: |
         cd android
         
-        # Fix gradle.properties to use Java 17
         echo "Fixing Gradle properties for Java 17..."
         
-        # Update gradle.properties
         if [ -f "gradle.properties" ]; then
-          # Remove any existing Java version configurations
           sed -i '/org.gradle.jvmargs/d' gradle.properties
           sed -i '/java.sourceCompatibility/d' gradle.properties
           sed -i '/java.targetCompatibility/d' gradle.properties
         fi
         
-        # Add Java 17 configuration
         cat >> gradle.properties << 'EOF'
 
-# Java 17 Configuration
-org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:+UseParallelGC
-org.gradle.java.home=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
-EOF
+        # Java 17 Configuration
+        org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:+UseParallelGC
+        org.gradle.java.home=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
+        EOF
         
-        # Fix app/build.gradle to use Java 17
         if [ -f "app/build.gradle" ]; then
           echo "Fixing app/build.gradle for Java 17..."
           
-          # Update compileOptions and kotlinOptions
           sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/' app/build.gradle
           sed -i 's/jvmTarget = ".*"/jvmTarget = "17"/' app/build.gradle
           sed -i 's/jvmTarget = .*/jvmTarget = "17"/' app/build.gradle
           
-          # Add or update Java compatibility
           if ! grep -q "compileOptions" app/build.gradle; then
             cat >> app/build.gradle << 'EOF'
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-EOF
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        EOF
           fi
         fi
         
-        # Fix capacitor-android module if it exists
         if [ -f "capacitor-android/build.gradle" ]; then
           echo "Fixing capacitor-android/build.gradle for Java 17..."
           sed -i 's/JavaVersion.VERSION_.*/JavaVersion.VERSION_17/' capacitor-android/build.gradle
@@ -223,7 +201,6 @@ EOF
         
         echo "✅ Android Gradle configuration updated for Java 17"
         
-        # Verify Java configuration
         echo "Current Java setup:"
         java -version
         echo "JAVA_HOME: $JAVA_HOME"
@@ -233,18 +210,13 @@ EOF
         cd android
         chmod +x ./gradlew
         
-        # Set explicit Java 17 environment
         export JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12+7/x64
         export PATH=$JAVA_HOME/bin:$PATH
         
-        # Verify Java version before building
         echo "Java version for Android build:"
         java -version
         
-        # Build with explicit Java 17 and Gradle options
-        ./gradlew assembleDebug --no-daemon --stacktrace \
-          -Dorg.gradle.java.home=$JAVA_HOME \
-          -Dfile.encoding=UTF-8
+        ./gradlew assembleDebug --no-daemon --stacktrace -Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
