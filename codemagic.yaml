@@ -1,0 +1,121 @@
+workflows:
+  step-up-naija-workflow:
+    name: Step Up Naija Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      vars:
+        # Public variables
+        CAPACITOR_CLI_NO_TELEMETRY: true
+      node: 18.17.0
+      npm: 9
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - node_modules
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm ci
+      - name: Build web app
+        script: |
+          echo "=== Detecting project structure ==="
+          if [ -d "client" ]; then
+            echo "✅ Found client/ folder"
+            ls -la client/
+          else
+            echo "❌ No client/ folder found"
+          fi
+          
+          if [ -d "src" ]; then
+            echo "✅ Found src/ folder in root"
+            ls -la src/ | head -10
+          else
+            echo "❌ No src/ folder in root"
+          fi
+          
+          echo "=== Looking for index.html ==="
+          find . -name "index.html" -type f | head -5
+          
+          echo "=== Creating missing index.html ==="
+          cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Step Up Naija - #13K Credible Challenge | Civic Engagement Platform</title>
+    <meta name="description" content="Join millions of Nigerians in the #13K Credible Challenge. Nominate credible leaders, participate in civic activities, earn SUP tokens, and build Nigeria's future through democratic engagement." />
+    <meta name="keywords" content="Nigeria, civic engagement, leadership, democracy, #13K Challenge, SUP tokens, community projects, voting" />
+    <meta name="author" content="Step Up Naija" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stepupnaija.replit.app/" />
+    <meta property="og:title" content="Step Up Naija - #13K Credible Challenge" />
+    <meta property="og:description" content="Join millions of Nigerians in building a credible leadership pipeline. Participate in civic activities, nominate leaders, and shape Nigeria's future." />
+    <meta property="og:image" content="/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://stepupnaija.replit.app/" />
+    <meta property="twitter:title" content="Step Up Naija - #13K Credible Challenge" />
+    <meta property="twitter:description" content="Join millions of Nigerians in building a credible leadership pipeline. Participate in civic activities, nominate leaders, and shape Nigeria's future." />
+    <meta property="twitter:image" content="/og-image.jpg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+EOF
+          
+          echo "=== Starting build ==="
+          npx vite build --config vite.config.mobile.ts
+      - name: Update dependencies and build Capacitor iOS
+        script: |
+          npx cap sync ios
+      - name: Set up provisioning profiles settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Build iOS
+        script: |
+          xcode-project build-ipa \
+            --workspace ios/App/App.xcworkspace \
+            --scheme App \
+            --archive-flags="-destination 'generic/platform=iOS'"
+      - name: Update dependencies and build Capacitor Android
+        script: |
+          npx cap sync android
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build Android
+        script: |
+          cd android && ./gradlew assembleRelease
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - android/app/build/outputs/**/*.apk
+      - android/app/build/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - stepupnaija@example.com
+        notify:
+          success: true
+          failure: true
+      # app_store_connect:
+        # api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        # key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER  
+        # issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        # submit_to_testflight: false
+        # beta_groups:
+          # - App Store Connect Users
+      # google_play:
+        # credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        # track: internal
