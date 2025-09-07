@@ -115,14 +115,35 @@ jobs:
           npx vite build
         fi
         
-        # Create build directory from dist
-        if [ -d "dist" ]; then
-          rm -rf build 2>/dev/null || true
-          mv dist build
+        echo "Build completed. Checking output directories:"
+        ls -la . | grep -E "(dist|build)"
+        
+        # Ensure dist/public exists with correct structure for Capacitor
+        if [ -d "dist/public" ]; then
+          echo "✅ dist/public directory exists"
+        elif [ -d "dist" ]; then
+          echo "Creating dist/public from dist directory..."
+          mkdir -p dist/public
+          cp -r dist/* dist/public/ 2>/dev/null || true
+        elif [ -d "build" ]; then
+          echo "Creating dist/public from build directory..."
+          mkdir -p dist/public
+          cp -r build/* dist/public/ 2>/dev/null || true
+        else
+          echo "❌ No build output found, creating minimal dist/public"
+          mkdir -p dist/public
+          cp index.html dist/public/ 2>/dev/null || true
         fi
         
-        echo "Build completed. Contents:"
-        ls -la build/ 2>/dev/null || echo "No build directory found"
+        # Verify final structure
+        echo "Final dist/public contents:"
+        ls -la dist/public/ 2>/dev/null || echo "dist/public not found"
+        
+        # Ensure index.html exists in dist/public
+        if [ ! -f "dist/public/index.html" ]; then
+          echo "Creating index.html in dist/public"
+          cp index.html dist/public/ 2>/dev/null || true
+        fi
     
     - name: Install Capacitor CLI
       run: npm install -g @capacitor/cli@latest
@@ -131,14 +152,12 @@ jobs:
       run: |
         # Initialize Capacitor if not already done
         if [ ! -f "capacitor.config.ts" ] && [ ! -f "capacitor.config.json" ]; then
-          npx cap init "Step Up Naija" "com.stepup.naija" --web-dir="build"
+          npx cap init "Step Up Naija" "com.stepup.naija" --web-dir="dist/public"
         fi
         
-        # Copy web assets
-        mkdir -p www
-        if [ -d "build" ]; then
-          cp -r build/* www/
-        fi
+        # Verify web directory exists
+        echo "Verifying web directory for Capacitor:"
+        ls -la dist/public/ 2>/dev/null || echo "❌ dist/public still missing"
     
     - name: Add Android platform
       run: |
