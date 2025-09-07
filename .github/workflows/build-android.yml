@@ -103,11 +103,15 @@ jobs:
         elif [ -d "dist" ]; then
           rm -rf build 2>/dev/null || true
           mv dist build
-        fi
+            - name: Add Android platform
+      run: |
+        # Remove existing android directory if it exists
+        rm -rf android 2>/dev/null || true
         
-        # Ensure Capacitor can find web assets
-        mkdir -p dist
-        cp -r build dist/public
+        # Add Android platform fresh
+        npx cap add android
+        npx cap copy android
+        npx cap sync android
     
     - name: Install Capacitor CLI
       run: npm install -g @capacitor/cli@latest
