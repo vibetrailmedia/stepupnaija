@@ -37,6 +37,11 @@ export default defineConfig({
   },
   root: rootPath,
   build: {
+    rollupOptions: {
+      input: hasClientFolder 
+        ? path.resolve(__dirname, "client/index.html")
+        : path.resolve(__dirname, "index.html")
+    },
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
