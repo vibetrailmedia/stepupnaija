@@ -58,16 +58,34 @@ jobs:
         echo "Creating comprehensive mobile build fixes..."
         mkdir -p attached_assets/generated_images
         
-        # Create PNG placeholder function
+        # Create PNG placeholder using base64 (more reliable)
         create_png_placeholder() {
-          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChAI9jU77UwAAAABJRU5ErkJggg==" | base64 -d > "$1"
+          echo "Creating placeholder: $1"
+          # Create a 1x1 transparent PNG using base64
+          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" | base64 -d > "$1" 2>/dev/null
+          if [ ! -f "$1" ] || [ ! -s "$1" ]; then
+            # Fallback: create using hexdump if base64 fails
+            echo "89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000a49444154789c6300010000050001d5cc2e6a0000000049454e44ae426082" | xxd -r -p > "$1" 2>/dev/null
+          fi
+          if [ ! -f "$1" ] || [ ! -s "$1" ]; then
+            # Last resort: create a simple file with PNG header
+            printf '\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01\x00\x00\x05\x00\x01\r\n-\xdb\x00\x00\x00\x00IEND\xaeB`\x82' > "$1"
+          fi
         }
         
         # Fix imports
+        echo "Fixing import issues..."
         if [ -f "src/pages/community-chat.tsx" ]; then
           sed -i 's/RealtimeNotifications/RealTimeNotifications/g' src/pages/community-chat.tsx
           sed -i 's/@\/components\/RealtimeNotifications/@\/components\/RealTimeNotifications/g' src/pages/community-chat.tsx
+          echo "Fixed community-chat.tsx imports"
         fi
+        
+        # Also fix any other import issues
+        find src -name "*.tsx" -exec grep -l "RealtimeNotifications" {} \; 2>/dev/null | while read file; do
+          echo "Fixing imports in: $file"
+          sed -i 's/RealtimeNotifications/RealTimeNotifications/g' "$file"
+        done
         
         # Create all missing assets with placeholders
         all_assets=(
@@ -116,12 +134,29 @@ jobs:
           "generated_images/AAUA_university_logo_92def4fc.png"
         )
         
+        echo "Creating missing asset files..."
         for asset in "${all_assets[@]}"; do
-          if [ ! -f "attached_assets/$asset" ]; then
+          asset_path="attached_assets/$asset"
+          if [ ! -f "$asset_path" ]; then
+            echo "Creating missing asset: $asset_path"
             mkdir -p "attached_assets/$(dirname "$asset")"
-            create_png_placeholder "attached_assets/$asset"
+            create_png_placeholder "$asset_path"
+            
+            # Verify file was created
+            if [ -f "$asset_path" ]; then
+              echo "✅ Created: $asset_path ($(stat -c%s "$asset_path") bytes)"
+            else
+              echo "❌ Failed to create: $asset_path"
+            fi
+          else
+            echo "✅ Already exists: $asset_path"
           fi
         done
+        
+        # List created assets for verification
+        echo "Final asset check:"
+        ls -la attached_assets/ 2>/dev/null || echo "No attached_assets directory"
+        ls -la attached_assets/generated_images/ 2>/dev/null || echo "No generated_images directory"
     
     - name: Build web app
       run: |
