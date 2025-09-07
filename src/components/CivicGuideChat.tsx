@@ -22,8 +22,8 @@ import {
   Shield,
   X
 } from 'lucide-react';
-import tariImage from '@assets/a8accb1294c8498f8139dafc387a47e0_1757182966452.webp';
-import kamsiImage from '@assets/kamsi_1757182966454.png';
+const tariImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const kamsiImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 
 interface ChatMessage {
   role: 'user' | 'tari' | 'kamsi';
