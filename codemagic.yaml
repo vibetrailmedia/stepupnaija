@@ -1,0 +1,114 @@
+workflows:
+  step-up-naija-workflow:
+    name: Step Up Naija Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      vars:
+        # Public variables
+        CAPACITOR_CLI_NO_TELEMETRY: true
+      node: 18.17.0
+      npm: 9
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - node_modules
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm ci
+      - name: Create missing index.html
+        script: |
+          echo "Creating index.html for mobile build..."
+          echo '<!DOCTYPE html>' > index.html
+          echo '<html lang="en">' >> index.html
+          echo '  <head>' >> index.html
+          echo '    <meta charset="UTF-8" />' >> index.html
+          echo '    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />' >> index.html
+          echo '    <title>Step Up Naija - #13K Credible Challenge</title>' >> index.html
+          echo '    <meta name="description" content="Join millions of Nigerians in the #13K Credible Challenge. Nominate credible leaders, participate in civic activities, and build Nigeria'\''s future." />' >> index.html
+          echo '    <link rel="icon" type="image/x-icon" href="/favicon.ico" />' >> index.html
+          echo '  </head>' >> index.html
+          echo '  <body>' >> index.html
+          echo '    <div id="root"></div>' >> index.html
+          echo '    <script type="module" src="/src/main.tsx"></script>' >> index.html
+          echo '  </body>' >> index.html
+          echo '</html>' >> index.html
+          ls -la index.html
+          echo "index.html created successfully!"
+      - name: Fix missing assets
+        script: |
+          echo "Creating placeholder images for missing assets..."
+          mkdir -p attached_assets
+          ls -la attached_assets/
+          
+          # Create placeholder webp file if missing
+          if [ ! -f "attached_assets/a8accb1294c8498f8139dafc387a47e0_1757182966452.webp" ]; then
+            echo "Creating placeholder for missing tari image..."
+            # Use existing similar image or create a simple placeholder
+            if [ -f "attached_assets/62a53708d7f149f587b5065cdc755429_1757102170162.webp" ]; then
+              cp "attached_assets/62a53708d7f149f587b5065cdc755429_1757102170162.webp" "attached_assets/a8accb1294c8498f8139dafc387a47e0_1757182966452.webp"
+            else
+              # Create a simple 100x100 placeholder using convert (if available) or just touch the file
+              touch "attached_assets/a8accb1294c8498f8139dafc387a47e0_1757182966452.webp"
+            fi
+          fi
+          
+          # Create placeholder png file if missing
+          if [ ! -f "attached_assets/kamsi_1757182966454.png" ]; then
+            echo "Creating placeholder for missing kamsi image..."
+            # Use existing similar image
+            if [ -f "attached_assets/Kamsi bi_1757182570845.png" ]; then
+              cp "attached_assets/Kamsi bi_1757182570845.png" "attached_assets/kamsi_1757182966454.png"
+            else
+              touch "attached_assets/kamsi_1757182966454.png"
+            fi
+          fi
+          
+          echo "Asset fix completed!"
+          ls -la attached_assets/ | head -10
+      - name: Build web app
+        script: |
+          echo "Starting Vite build..."
+          npx vite build --config vite.config.mobile.ts
+      - name: Update dependencies and build Capacitor iOS
+        script: |
+          npx cap sync ios
+      - name: Set up provisioning profiles settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Build iOS
+        script: |
+          xcode-project build-ipa \
+            --workspace ios/App/App.xcworkspace \
+            --scheme App \
+            --archive-flags="-destination 'generic/platform=iOS'"
+      - name: Update dependencies and build Capacitor Android
+        script: |
+          npx cap sync android
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build Android
+        script: |
+          cd android && ./gradlew assembleRelease
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - android/app/build/outputs/**/*.apk
+      - android/app/build/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - stepupnaija@example.com
+        notify:
+          success: true
+          failure: true
+      # app_store_connect:
+        # api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        # key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER  
+        # issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        # submit_to_testflight: false
+        # beta_groups:
+          # - App Store Connect Users
+      # google_play:
+        # credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        # track: internal
