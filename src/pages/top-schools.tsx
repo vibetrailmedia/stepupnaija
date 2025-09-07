@@ -22,26 +22,26 @@ import {
 } from "lucide-react";
 
 // Import generated university logos
-import uiLogoImage from "@assets/generated_images/University_of_Ibadan_logo_b36b851a.png";
-import unilagLogoImage from "@assets/generated_images/UNILAG_university_logo_2f8621ab.png";
-import abuLogoImage from "@assets/generated_images/ABU_university_logo_dfea4cfe.png";
-import unnLogoImage from "@assets/generated_images/UNN_university_logo_f3e99836.png";
-import covenantLogoImage from "@assets/generated_images/Covenant_University_logo_796d63b3.png";
-import oauLogoImage from "@assets/generated_images/OAU_university_logo_c5878c86.png";
-import uniloriinLogoImage from "@assets/generated_images/UNILORIN_university_logo_110e2837.png";
-import futaLogoImage from "@assets/generated_images/FUTA_university_logo_0104532e.png";
-import bukLogoImage from "@assets/generated_images/BUK_university_logo_08e474bb.png";
-import unibenLogoImage from "@assets/generated_images/UNIBEN_university_logo_c84ef7a6.png";
-import lasuLogoImage from "@assets/generated_images/LASU_university_logo_16d6bf88.png";
-import uniportLogoImage from "@assets/generated_images/UNIPORT_university_logo_e90409d0.png";
-import futminnaLogoImage from "@assets/generated_images/FUTMINNA_university_logo_28d3b1e7.png";
-import nauLogoImage from "@assets/generated_images/NAU_university_logo_fcccd8c1.png";
-import unicalLogoImage from "@assets/generated_images/UNICAL_university_logo_71674d48.png";
-import unijosLogoImage from "@assets/generated_images/UNIJOS_university_logo_929df0fc.png";
-import funaabLogoImage from "@assets/generated_images/FUNAAB_university_logo_ae46856d.png";
-import uniabujaLogoImage from "@assets/generated_images/UNIABUJA_university_logo_382b3f47.png";
-import rsuLogoImage from "@assets/generated_images/RSU_university_logo_08c2005f.png";
-import aauaLogoImage from "@assets/generated_images/AAUA_university_logo_92def4fc.png";
+const uiLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const unilagLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const abuLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const unnLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const covenantLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const oauLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const uniloriinLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const futaLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const bukLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const unibenLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const lasuLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const uniportLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const futminnaLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const nauLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const unicalLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const unijosLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const funaabLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const uniabujaLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const rsuLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
+const aauaLogoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==";
 
 // Map university IDs to their logos
 const universityLogoMap: Record<string, string> = {
