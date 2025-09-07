@@ -15,6 +15,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
+    - name: Setup Java 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
     - name: Setup Node.js with nvm fallback
       run: |
         # Try to use setup-node action first
@@ -37,6 +43,7 @@ jobs:
         
         echo "Final Node.js version: $(node --version)"
         echo "Final NPM version: $(npm --version)"
+        echo "Java version: $(java -version)"
     
     - name: Cache dependencies
       uses: actions/cache@v4
@@ -173,6 +180,12 @@ jobs:
       run: |
         cd android
         chmod +x ./gradlew
+        
+        # Verify Java version before building
+        echo "Java version for Android build:"
+        java -version
+        
+        # Build with proper Java version
         ./gradlew assembleDebug --no-daemon --stacktrace
     
     - name: Upload APK artifact
