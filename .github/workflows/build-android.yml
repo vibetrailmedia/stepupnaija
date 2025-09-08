@@ -172,17 +172,17 @@ jobs:
         npx cap copy android
         npx cap sync android
     
-    - name: Conservative Java 17 fix for Android
+    - name: Targeted capacitor-android Java 21 elimination
       run: |
         cd android
         
-        echo "🔧 Conservative Java 17 fix - minimal changes only..."
+        echo "🎯 Specifically targeting capacitor-android Java 21 elimination..."
         
         # Get the actual JAVA_HOME path dynamically
         ACTUAL_JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
         echo "Detected JAVA_HOME: $ACTUAL_JAVA_HOME"
         
-        # Fix root gradle.properties only
+        # Fix root gradle.properties
         if [ -f "gradle.properties" ]; then
           sed -i '/org.gradle.jvmargs/d' gradle.properties
           sed -i '/org.gradle.java.home/d' gradle.properties
@@ -195,59 +195,61 @@ jobs:
         org.gradle.java.home=$ACTUAL_JAVA_HOME
         EOF
         
-        # Conservative function - only fix obvious Java version issues
-        fix_gradle_conservative() {
-          local file="$1"
-          echo "🛠️ Conservative fix for $file..."
+        # AGGRESSIVE capacitor-android specific fix
+        if [ -f "capacitor-android/build.gradle" ]; then
+          echo "🔥 AGGRESSIVELY fixing capacitor-android/build.gradle..."
           
-          # Create backup
-          cp "$file" "$file.backup"
+          cp "capacitor-android/build.gradle" "capacitor-android/build.gradle.backup"
           
-          # Only fix obvious Java version conflicts (replace 21 with 17)
-          sed -i 's/JavaVersion\.VERSION_21/JavaVersion.VERSION_17/g' "$file"
-          sed -i 's/jvmTarget = "21"/jvmTarget = "17"/g' "$file"
-          sed -i 's/jvmTarget = 21/jvmTarget = "17"/g' "$file"
-          sed -i 's/sourceCompatibility.*21/sourceCompatibility JavaVersion.VERSION_17/g' "$file"
-          sed -i 's/targetCompatibility.*21/targetCompatibility JavaVersion.VERSION_17/g' "$file"
+          # Hunt down and destroy ALL Java 21 references
+          sed -i 's/21/17/g' "capacitor-android/build.gradle"
+          sed -i 's/JavaVersion\.VERSION_[0-9]*/JavaVersion.VERSION_17/g' "capacitor-android/build.gradle"
+          sed -i 's/jvmTarget.*=.*/jvmTarget = "17"/g' "capacitor-android/build.gradle"
+          sed -i 's/sourceCompatibility.*/sourceCompatibility JavaVersion.VERSION_17/g' "capacitor-android/build.gradle"
+          sed -i 's/targetCompatibility.*/targetCompatibility JavaVersion.VERSION_17/g' "capacitor-android/build.gradle"
           
-          # Only add compileOptions if it's clearly missing AND this is an Android module
-          if grep -q "android {" "$file" && ! grep -q "compileOptions" "$file" && ! grep -q "sourceCompatibility" "$file"; then
-            echo "Adding minimal compileOptions to $file..."
+          # Force add compileOptions if not present
+          if ! grep -q "compileOptions" "capacitor-android/build.gradle"; then
+            echo "Adding compileOptions to capacitor-android..."
             sed -i '/android {/a\
             \
                 compileOptions {\
                     sourceCompatibility JavaVersion.VERSION_17\
                     targetCompatibility JavaVersion.VERSION_17\
-                }' "$file"
+                }' "capacitor-android/build.gradle"
           fi
           
-          # DON'T add kotlinOptions unless we know Kotlin is present
-          echo "Skipping kotlinOptions for safety in $file"
-        }
+          echo "📄 After aggressive fix - capacitor-android/build.gradle content:"
+          cat "capacitor-android/build.gradle"
+        fi
         
-        # Fix all build.gradle files conservatively
+        # Also fix any other build.gradle files that might have Java 21
         find . -name "build.gradle" -type f | while read gradle_file; do
-          fix_gradle_conservative "$gradle_file"
+          if [ "$gradle_file" != "./capacitor-android/build.gradle" ]; then
+            echo "🛠️ Conservative fix for $gradle_file..."
+            cp "$gradle_file" "$gradle_file.backup"
+            sed -i 's/JavaVersion\.VERSION_21/JavaVersion.VERSION_17/g' "$gradle_file"
+            sed -i 's/jvmTarget = "21"/jvmTarget = "17"/g' "$gradle_file"
+            sed -i 's/sourceCompatibility.*21/sourceCompatibility JavaVersion.VERSION_17/g' "$gradle_file"
+            sed -i 's/targetCompatibility.*21/targetCompatibility JavaVersion.VERSION_17/g' "$gradle_file"
+          fi
         done
         
-        # Also handle .kts files conservatively
-        find . -name "build.gradle.kts" -type f | while read gradle_file; do
-          echo "🛠️ Conservative fix for Kotlin build file: $gradle_file"
-          cp "$gradle_file" "$gradle_file.backup"
-          sed -i 's/JavaVersion\.VERSION_21/JavaVersion.VERSION_17/g' "$gradle_file"
-          sed -i 's/jvmTarget = "21"/jvmTarget = "17"/g' "$gradle_file"
-        done
+        # Hunt down any remaining Java 21 references anywhere
+        echo "🔍 Hunting for any remaining Java 21 references..."
+        find . -name "*.gradle" -type f -exec grep -l "21" {} \; 2>/dev/null || echo "No more Java 21 references found"
         
-        echo "✅ Conservative Android configuration completed"
+        # Show what we found and fixed
+        echo "🔍 Verification - Files that mentioned Java versions:"
+        find . -name "*.gradle" -type f -exec grep -l "JavaVersion\|jvmTarget\|sourceCompatibility\|targetCompatibility" {} \; 2>/dev/null || echo "No Java version configurations found"
         
-        echo "🔍 Verification - Java setup:"
+        echo "✅ Targeted capacitor-android fix completed"
+        
+        echo "🔍 Final verification - Java setup:"
         java -version
         echo "JAVA_HOME: $ACTUAL_JAVA_HOME"
-        
-        echo "🔍 Verification - Files modified:"
-        find . -name "*.backup" -type f
     
-    - name: Build Android APK with conservative settings
+    - name: Build Android APK with targeted fixes
       run: |
         cd android
         chmod +x ./gradlew
@@ -259,7 +261,7 @@ jobs:
         export JAVA_OPTS="-Xmx4g"
         export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8 -Xmx4g"
         
-        echo "🚀 Building with conservative Java 17 environment:"
+        echo "🚀 Building with targeted Java 17 fixes:"
         echo "Java version: $(java -version)"
         echo "JAVA_HOME: $JAVA_HOME"
         echo "GRADLE_OPTS: $GRADLE_OPTS"
@@ -268,8 +270,8 @@ jobs:
         echo "🧹 Cleaning previous build..."
         ./gradlew clean --no-daemon --stacktrace
         
-        # Build with minimal flags
-        echo "🔨 Building APK conservatively..."
+        # Build with targeted fixes
+        echo "🎯 Building APK with targeted capacitor-android fixes..."
         ./gradlew assembleDebug --no-daemon --stacktrace \
           -Dorg.gradle.java.home=$JAVA_HOME \
           -Dfile.encoding=UTF-8
@@ -282,21 +284,20 @@ jobs:
         path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
     
-    - name: Upload debug files on failure
+    - name: Upload debug files
       uses: actions/upload-artifact@v4
-      if: failure()
+      if: always()
       with:
-        name: debug-files
+        name: debug-gradle-files
         path: |
           android/**/*.backup
+          android/capacitor-android/build.gradle
           android/gradle.properties
-          android/app/build.gradle
-          android/build/reports/
         retention-days: 7
     
     - name: Display APK info
       if: success()
       run: |
-        echo "✅ Step Up Naija Android APK built successfully!"
+        echo "🎉 Step Up Naija Android APK built successfully!"
         echo "📱 Location: android/app/build/outputs/apk/debug/app-debug.apk"
         ls -la android/app/build/outputs/apk/debug/
