@@ -227,7 +227,7 @@ jobs:
         java -version
         echo "JAVA_HOME: $ACTUAL_JAVA_HOME"
     
-    - name: Build Android APK with maximum override
+    - name: Build Android APK with corrected syntax
       run: |
         cd android
         chmod +x ./gradlew
@@ -239,7 +239,7 @@ jobs:
         export JAVA_OPTS="-Xmx4g"
         export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8 -Xmx4g -Dorg.gradle.java.toolchain.version=17"
         
-        echo "🚀 Building with MAXIMUM Java 17 override:"
+        echo "🚀 Building with CORRECTED Java 17 override:"
         echo "Java version: $(java -version)"
         echo "JAVA_HOME: $JAVA_HOME"
         echo "GRADLE_OPTS: $GRADLE_OPTS"
@@ -250,16 +250,15 @@ jobs:
           -Dorg.gradle.java.home=$JAVA_HOME \
           -Dorg.gradle.java.toolchain.version=17
         
-        # Build with MAXIMUM override flags
-        echo "🔨 Building APK with MAXIMUM Java 17 override..."
+        # Build with CORRECT syntax (removed invalid --java-home flag)
+        echo "🔨 Building APK with CORRECTED command syntax..."
         ./gradlew assembleDebug --no-daemon --stacktrace \
           -Dorg.gradle.java.home=$JAVA_HOME \
           -Dfile.encoding=UTF-8 \
           -Dorg.gradle.java.toolchain.version=17 \
           -Djava.sourceCompatibility=17 \
           -Djava.targetCompatibility=17 \
-          -PjavaVersion=17 \
-          --java-home="$JAVA_HOME"
+          -PjavaVersion=17
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
@@ -269,35 +268,11 @@ jobs:
         path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
     
-    - name: Upload final debug files
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: final-debug-files
-        path: |
-          android/**/*.backup
-          android/gradle.properties
-          android/build/reports/
-        retention-days: 7
-    
-    - name: Display success
+    - name: Display SUCCESS!
       if: success()
       run: |
         echo "🎉🎉🎉 STEP UP NAIJA ANDROID APK BUILT SUCCESSFULLY! 🎉🎉🎉"
         echo "📱 Location: android/app/build/outputs/apk/debug/app-debug.apk"
         echo "🚀 Ready for deployment to Google Play Store!"
+        echo "💪 Your civic engagement platform is now mobile-ready!"
         ls -la android/app/build/outputs/apk/debug/
-    
-    - name: Display build info on failure
-      if: failure()
-      run: |
-        echo "📊 Build Progress Summary:"
-        echo "✅ Dependencies installed successfully"
-        echo "✅ Web app built successfully"  
-        echo "✅ Capacitor initialized successfully"
-        echo "✅ Android platform added successfully"
-        echo "✅ Java 17 configuration applied"
-        echo "❌ APK compilation failed (but we're SO close!)"
-        echo ""
-        echo "🎯 We've resolved dozens of issues and made tremendous progress!"
-        echo "📱 Your Step Up Naija app is nearly ready for mobile deployment!"
