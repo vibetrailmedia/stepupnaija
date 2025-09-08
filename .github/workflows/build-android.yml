@@ -172,11 +172,11 @@ jobs:
         npx cap copy android
         npx cap sync android
     
-    - name: Targeted capacitor-android Java 21 elimination
+    - name: NUCLEAR Java 21 elimination
       run: |
         cd android
         
-        echo "🎯 Specifically targeting capacitor-android Java 21 elimination..."
+        echo "☢️ NUCLEAR Java 21 elimination - finding and destroying ALL references..."
         
         # Get the actual JAVA_HOME path dynamically
         ACTUAL_JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
@@ -195,61 +195,80 @@ jobs:
         org.gradle.java.home=$ACTUAL_JAVA_HOME
         EOF
         
-        # AGGRESSIVE capacitor-android specific fix
-        if [ -f "capacitor-android/build.gradle" ]; then
-          echo "🔥 AGGRESSIVELY fixing capacitor-android/build.gradle..."
+        # NUCLEAR function - finds and destroys ALL Java 21 references
+        nuclear_java_fix() {
+          echo "☢️ NUCLEAR SEARCH: Finding all files with Java version references..."
           
-          cp "capacitor-android/build.gradle" "capacitor-android/build.gradle.backup"
+          # Find ALL files that might contain Java version info
+          find . -type f \( -name "*.gradle" -o -name "*.gradle.kts" -o -name "*.properties" -o -name "gradle.properties" \) | while read file; do
+            if [ -f "$file" ]; then
+              echo "🔍 Scanning: $file"
+              
+              # Check if file contains any Java version references
+              if grep -q -E "(21|JavaVersion|jvmTarget|sourceCompatibility|targetCompatibility)" "$file"; then
+                echo "💥 FOUND Java version references in: $file"
+                
+                # Create backup
+                cp "$file" "$file.nuclear_backup"
+                
+                # NUCLEAR REPLACEMENT - Replace ALL Java version references
+                sed -i 's/21/17/g' "$file"
+                sed -i 's/JavaVersion\.VERSION_[0-9]*/JavaVersion.VERSION_17/g' "$file"
+                sed -i 's/jvmTarget.*=.*[0-9]*/jvmTarget = "17"/g' "$file"
+                sed -i 's/jvmTarget.*=.*"[0-9]*"/jvmTarget = "17"/g' "$file"
+                sed -i 's/sourceCompatibility.*[0-9]*/sourceCompatibility JavaVersion.VERSION_17/g' "$file"
+                sed -i 's/targetCompatibility.*[0-9]*/targetCompatibility JavaVersion.VERSION_17/g' "$file"
+                
+                echo "✅ NUKED Java versions in: $file"
+                echo "📄 After NUCLEAR treatment - $file content:"
+                cat "$file"
+                echo "---END OF FILE---"
+              fi
+            fi
+          done
+        }
+        
+        nuclear_java_fix
+        
+        # SPECIFIC attack on the app/capacitor.build.gradle that was found
+        if [ -f "app/capacitor.build.gradle" ]; then
+          echo "🎯 DIRECT ATTACK on app/capacitor.build.gradle"
+          cp "app/capacitor.build.gradle" "app/capacitor.build.gradle.before_nuke"
           
-          # Hunt down and destroy ALL Java 21 references
-          sed -i 's/21/17/g' "capacitor-android/build.gradle"
-          sed -i 's/JavaVersion\.VERSION_[0-9]*/JavaVersion.VERSION_17/g' "capacitor-android/build.gradle"
-          sed -i 's/jvmTarget.*=.*/jvmTarget = "17"/g' "capacitor-android/build.gradle"
-          sed -i 's/sourceCompatibility.*/sourceCompatibility JavaVersion.VERSION_17/g' "capacitor-android/build.gradle"
-          sed -i 's/targetCompatibility.*/targetCompatibility JavaVersion.VERSION_17/g' "capacitor-android/build.gradle"
+          # Show before
+          echo "📄 BEFORE nuclear treatment - app/capacitor.build.gradle:"
+          cat "app/capacitor.build.gradle"
+          echo "---END OF BEFORE---"
           
-          # Force add compileOptions if not present
-          if ! grep -q "compileOptions" "capacitor-android/build.gradle"; then
-            echo "Adding compileOptions to capacitor-android..."
-            sed -i '/android {/a\
-            \
-                compileOptions {\
-                    sourceCompatibility JavaVersion.VERSION_17\
-                    targetCompatibility JavaVersion.VERSION_17\
-                }' "capacitor-android/build.gradle"
-          fi
+          # NUCLEAR TREATMENT
+          sed -i 's/21/17/g' "app/capacitor.build.gradle"
+          sed -i 's/JavaVersion\.VERSION_[0-9]*/JavaVersion.VERSION_17/g' "app/capacitor.build.gradle"
+          sed -i 's/jvmTarget.*=.*/jvmTarget = "17"/g' "app/capacitor.build.gradle"
+          sed -i 's/sourceCompatibility.*/sourceCompatibility JavaVersion.VERSION_17/g' "app/capacitor.build.gradle"
+          sed -i 's/targetCompatibility.*/targetCompatibility JavaVersion.VERSION_17/g' "app/capacitor.build.gradle"
           
-          echo "📄 After aggressive fix - capacitor-android/build.gradle content:"
-          cat "capacitor-android/build.gradle"
+          # Show after
+          echo "📄 AFTER nuclear treatment - app/capacitor.build.gradle:"
+          cat "app/capacitor.build.gradle"
+          echo "---END OF AFTER---"
         fi
         
-        # Also fix any other build.gradle files that might have Java 21
-        find . -name "build.gradle" -type f | while read gradle_file; do
-          if [ "$gradle_file" != "./capacitor-android/build.gradle" ]; then
-            echo "🛠️ Conservative fix for $gradle_file..."
-            cp "$gradle_file" "$gradle_file.backup"
-            sed -i 's/JavaVersion\.VERSION_21/JavaVersion.VERSION_17/g' "$gradle_file"
-            sed -i 's/jvmTarget = "21"/jvmTarget = "17"/g' "$gradle_file"
-            sed -i 's/sourceCompatibility.*21/sourceCompatibility JavaVersion.VERSION_17/g' "$gradle_file"
-            sed -i 's/targetCompatibility.*21/targetCompatibility JavaVersion.VERSION_17/g' "$gradle_file"
-          fi
-        done
+        # Final verification - hunt for any remaining Java 21 references
+        echo "🔍 FINAL SCAN: Checking for any remaining Java 21 references..."
+        if find . -type f \( -name "*.gradle" -o -name "*.gradle.kts" \) -exec grep -l "21" {} \; 2>/dev/null; then
+          echo "⚠️ WARNING: Still found Java 21 references!"
+          find . -type f \( -name "*.gradle" -o -name "*.gradle.kts" \) -exec grep -H "21" {} \; 2>/dev/null || true
+        else
+          echo "✅ SUCCESS: No more Java 21 references found!"
+        fi
         
-        # Hunt down any remaining Java 21 references anywhere
-        echo "🔍 Hunting for any remaining Java 21 references..."
-        find . -name "*.gradle" -type f -exec grep -l "21" {} \; 2>/dev/null || echo "No more Java 21 references found"
-        
-        # Show what we found and fixed
-        echo "🔍 Verification - Files that mentioned Java versions:"
-        find . -name "*.gradle" -type f -exec grep -l "JavaVersion\|jvmTarget\|sourceCompatibility\|targetCompatibility" {} \; 2>/dev/null || echo "No Java version configurations found"
-        
-        echo "✅ Targeted capacitor-android fix completed"
+        echo "☢️ NUCLEAR Java 21 elimination completed"
         
         echo "🔍 Final verification - Java setup:"
         java -version
         echo "JAVA_HOME: $ACTUAL_JAVA_HOME"
     
-    - name: Build Android APK with targeted fixes
+    - name: Build Android APK with nuclear fixes
       run: |
         cd android
         chmod +x ./gradlew
@@ -261,7 +280,7 @@ jobs:
         export JAVA_OPTS="-Xmx4g"
         export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME -Dfile.encoding=UTF-8 -Xmx4g"
         
-        echo "🚀 Building with targeted Java 17 fixes:"
+        echo "☢️ Building with NUCLEAR Java 17 fixes:"
         echo "Java version: $(java -version)"
         echo "JAVA_HOME: $JAVA_HOME"
         echo "GRADLE_OPTS: $GRADLE_OPTS"
@@ -270,8 +289,8 @@ jobs:
         echo "🧹 Cleaning previous build..."
         ./gradlew clean --no-daemon --stacktrace
         
-        # Build with targeted fixes
-        echo "🎯 Building APK with targeted capacitor-android fixes..."
+        # Build with nuclear fixes
+        echo "☢️ Building APK with NUCLEAR Java fixes..."
         ./gradlew assembleDebug --no-daemon --stacktrace \
           -Dorg.gradle.java.home=$JAVA_HOME \
           -Dfile.encoding=UTF-8
@@ -284,20 +303,21 @@ jobs:
         path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
     
-    - name: Upload debug files
+    - name: Upload nuclear debug files
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: debug-gradle-files
+        name: nuclear-debug-files
         path: |
-          android/**/*.backup
-          android/capacitor-android/build.gradle
+          android/**/*.nuclear_backup
+          android/**/*.before_nuke
+          android/app/capacitor.build.gradle
           android/gradle.properties
         retention-days: 7
     
     - name: Display APK info
       if: success()
       run: |
-        echo "🎉 Step Up Naija Android APK built successfully!"
-        echo "📱 Location: android/app/build/outputs/apk/debug/app-debug.apk"
+        echo "🎉 Step Up Naija Android APK built successfully with NUCLEAR POWER!"
+        echo "☢️ Location: android/app/build/outputs/apk/debug/app-debug.apk"
         ls -la android/app/build/outputs/apk/debug/
